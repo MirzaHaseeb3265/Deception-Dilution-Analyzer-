@@ -135,6 +135,7 @@ def call_cloudflare(user_prompt: str) -> str:
             {"role": "system", "content": SYSTEM_INSTRUCTION},
             {"role": "user", "content": user_prompt},
         ],
+        "response_format": {"type": "json_object"},
         "temperature": 0.1,
         "max_tokens": 3800,
     }
@@ -169,8 +170,15 @@ def call_cloudflare(user_prompt: str) -> str:
         return result
     if isinstance(result, dict):
         for key in ("response", "result", "text", "output_text"):
-            if isinstance(result.get(key), str):
-                return result[key]
+            value = result.get(key)
+            if isinstance(value, str):
+                return value
+            if isinstance(value, (dict, list)):
+                return json.dumps(value)
+        if "assessment" in result:
+            return json.dumps(result)
+    if isinstance(result, list):
+        return json.dumps(result)
     raise RuntimeError("Cloudflare returned an unexpected response format. Please retry.")
 
 
