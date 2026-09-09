@@ -8,7 +8,7 @@ import streamlit as st
 
 
 APP_NAME = "Deception Dilution Analyzer"
-DEFAULT_MODEL = "@cf/meta/llama-3.1-8b-instruct"
+DEFAULT_MODEL = "@cf/meta/llama-3.1-8b-instruct-fp8-fast"
 LIMITS = {"prompt": 4_000, "response": 12_000, "reference": 8_000}
 ASSESSMENTS = {"Low", "Moderate", "High", "Insufficient evidence"}
 DILUTION_LEVELS = {"None", "Low", "Moderate", "High", "Unknown"}
